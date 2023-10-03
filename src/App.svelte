@@ -45,13 +45,19 @@ import dayjs from 'dayjs';
     currentPost={title:'',creationDate:'',editDate:''};    
     modalOpen=true;   
   }
+  function handleViewClick(post){
+    mode='view';   
+    currentPost=post; 
+    modalOpen=true;   
+  }
 </script>
 
 <main class="main">
   <button class="postCreateBtn" on:click={handleCreateClick}>+</button>
    <section class="postList">
     {#each posts as post}
-         <PostCard title={post.title} creationDate={post.creationDate} editDate={post.editDate} currentPost={post} onEditClick={()=>handleEditClick(post)}/>
+         <PostCard title={post.title} creationDate={post.creationDate} editDate={post.editDate} currentPost={post} 
+         onEditClick={()=>handleEditClick(post)} onViewClick={()=>{handleViewClick(post)}}/>
 {/each}
    </section>
    <Modal open={modalOpen} currentPost={currentPost} mode={mode} saveFunction={handleSaveClick} closeFunction={onCloseClick}/>

@@ -5,7 +5,7 @@
   export let saveFunction
   export let closeFunction
 
-  $: post = mode==='edit' ? structuredClone(currentPost) : {title:'',creationDate:'',editDate:'',content:''};
+  $: post = mode==='edit' || 'view' ? structuredClone(currentPost) : {title:'',creationDate:'',editDate:'',content:''};
 
   $: if (currentPost?.creationDate || currentPost?.editDate || currentPost?.title || currentPost?.content || mode) {
     const titleInput = document.querySelector('.modal__titleInput');
@@ -13,18 +13,17 @@
     if(titleInput && textInput)    
     {titleInput.value = post ? post?.title : '';
     textInput.textContent = post ? post?.content : '';}
-   
 } 
  </script>
  
- <section class={`modal ${open ? "modal_open" : null}`}>
+ <section class={`modal ${open ? "modal_open" : ''}`}>
   <form class="modalCard">
   <div>
-    <p>Заголовок</p><input on:change={(e)=>{post.title = e.target.value}} class="modal__titleInput" type="text"/>
+    <p>Заголовок</p><input on:change={(e)=>{post.title = e.target.value}} class="modal__titleInput" type="text" disabled={mode==='view'}/>
   </div>
   <div>
     <p>Текст поста</p><div on:input={(e)=>{
-      post.content = e.target.textContent}} class="modal__textInput" contenteditable/>
+      post.content = e.target.textContent}} class="modal__textInput" contenteditable={mode==='edit'}/>
   </div>
   {#if mode==='edit'}
   <div class="postCard__footer">
@@ -36,9 +35,12 @@
   {/if}
   <div class="modal__btnGrp">
     <button type="reset" on:click={()=>{closeFunction()}}>Закрыть</button>
+    {#if mode!=='view'}
     <button type="submit" on:click={(evt)=>{
       evt.preventDefault();
-      saveFunction(post)}}>Сохранить</button></div>
+      saveFunction(post)}}>Сохранить</button>
+      {/if}
+      </div>
 </form>
  </section>
  
