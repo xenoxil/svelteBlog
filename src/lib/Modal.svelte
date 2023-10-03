@@ -23,7 +23,7 @@
   </div>
   <div>
     <p>Текст поста</p><div on:input={(e)=>{
-      post.content = e.target.textContent}} class="modal__textInput" contenteditable={mode==='edit'}/>
+      post.content = e.target.textContent}} class="modal__textInput" contenteditable={mode!=='view'}/>
   </div>
   {#if mode==='edit'}
   <div class="postCard__footer">
@@ -52,7 +52,7 @@
     padding:25px;
      position: absolute;
      width:100%;
-     min-height:100%;
+     min-height:40%;
      top:0;
      left:0;
      display:none;

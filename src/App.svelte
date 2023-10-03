@@ -1,9 +1,11 @@
 <script>
+  import { onMount } from "svelte";
 import Modal from "./lib/Modal.svelte";
 import PostCard from "./lib/PostCard.svelte";
 import dayjs from 'dayjs';
 
-  let posts=[
+const savedPosts = localStorage.getItem('posts');
+  let posts= savedPosts ? JSON.parse(savedPosts) : [
     {title:'Заголовок1',creationDate:'2023-10-01',editDate:'2023-10-02', content:'text1',id:'1'},
   {title:'Заголовок2',creationDate:'2023-09-27',editDate:'',content:'text2',id:'2'},
   {title:'Заголовок3',creationDate:'2023-09-02',editDate:'2023-09-24',content:'text3',id:'3'}
@@ -11,6 +13,10 @@ import dayjs from 'dayjs';
   let modalOpen = false;
   let currentPost={};
   let mode='create';
+  $: if(posts){
+    localStorage.setItem('posts',JSON.stringify(posts));
+  }
+
 
   function handleSaveClick(postData){    
     if(!(postData.content?.length>3 && postData.title?.length>2)) return alert(`Длины заголовка и текста должны быть больше 2ух символов`)
@@ -35,9 +41,9 @@ import dayjs from 'dayjs';
     }
 
   function handleEditClick(post){
-    currentPost=post;
-    modalOpen=true;    
     mode='edit';
+    currentPost=post;   
+    modalOpen=true;        
   }
 
   function handleCreateClick  (){
@@ -71,14 +77,14 @@ import dayjs from 'dayjs';
     z-index: 2;
   }
   .postList{
-    width:60vw;
+    width:50vw;
   }
   .postCreateBtn{
     border:0;
     color:white;
     background-color: green;
     border-radius:5px;
-    margin: 0 0 15px 55vw   
+    margin: 0 0 15px 45vw   
   }
   .postCreateBtn:focus{
     outline: 0;
