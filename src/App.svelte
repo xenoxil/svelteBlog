@@ -23,6 +23,7 @@ import dayjs from 'dayjs';
    
     const currentPost = posts.find(post=>post.id===postData.id);
     currentPost.content = postData.content;
+    currentPost.title = postData.title;
     currentPost.editDate = `${dayjs(new Date()).format('YYYY-MM-DD')}`;
     modalOpen=false;
     posts=posts;   

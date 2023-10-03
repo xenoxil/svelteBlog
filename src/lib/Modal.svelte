@@ -6,18 +6,14 @@
   export let closeFunction
 
   $: post = mode==='edit' ? structuredClone(currentPost) : {title:'',creationDate:'',editDate:'',content:''};
-  
+
   $: if (currentPost?.creationDate || currentPost?.editDate || currentPost?.title || currentPost?.content || mode) {
     const titleInput = document.querySelector('.modal__titleInput');
     const textInput = document.querySelector('.modal__textInput');
-    if(mode==='edit'){  
-    titleInput.value = post?.title;
-    textInput.textContent = post?.content;
-    }
-    else{            
-      titleInput ? titleInput.value = '' : null;
-      textInput ? textInput.textContent = '' : null;
-    }  
+    if(titleInput && textInput)    
+    {titleInput.value = post ? post?.title : '';
+    textInput.textContent = post ? post?.content : '';}
+   
 } 
  </script>
  
